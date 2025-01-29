@@ -1,6 +1,6 @@
 # Kiss Dependencies
 
-A lightweight dependency injection package for Dart that follows the KISS (Keep It Simple, Stupid) principle. Currently using [get_it](https://pub.dev/packages/get_it), Kiss Dependencies provides a streamlined API for managing your application's dependencies.
+A lightweight dependency injection package for Dart that follows the KISS (Keep It Simple, Stupid) principle. Built on top of [get_it](https://pub.dev/packages/get_it), Kiss Dependencies provides a streamlined API for managing your application's dependencies.
 
 ## Features
 
@@ -16,7 +16,7 @@ Add Kiss Dependencies to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  kiss_dependencies: ^1.0.0
+  kiss_dependencies: ^1.0.1
 ```
 
 ## Usage
@@ -51,15 +51,13 @@ final customService = resolve<MyService>(identifier: 'custom');
 For cases where you need to create objects with specific context:
 
 ```dart
-// Define a factory
-final factory = ObjectFactory<MyObject, BuildContext>((context) {
-  return MyObject(context);
-});
+// Define and register a factory
+register<ObjectFactory<MyObject, BuildContext>>(
+  ObjectFactory((context) => MyObject(context))
+);
 
-// Register the factory
-register<ObjectFactory<MyObject, BuildContext>>(factory);
-
-// Use the factory
+// Resolve and use the factory
+final factory = resolve<ObjectFactory<MyObject, BuildContext>>();
 final myObject = factory.build(context);
 ```
 
@@ -68,11 +66,13 @@ final myObject = factory.build(context);
 When you need to cache objects based on context:
 
 ```dart
-final cachedFactory = ObjectFactoryPermanentCached<MyWidget, String>((id) {
-  return MyWidget(id);
-});
+// Register a cached factory
+register<ObjectFactoryPermanentCached<MyWidget, String>>(
+  ObjectFactoryPermanentCached((id) => MyWidget(id))
+);
 
-// First call creates and caches the instance
+// Resolve the factory and build instances
+final cachedFactory = resolve<ObjectFactoryPermanentCached<MyWidget, String>>();
 final widget1 = cachedFactory.build('unique_id');
 
 // Subsequent calls return the cached instance

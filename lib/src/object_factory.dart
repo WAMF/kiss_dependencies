@@ -1,3 +1,11 @@
+class InstanceFactory<T> {
+  InstanceFactory(this.create);
+  final T Function() create;
+  T newInstance() {
+    return create();
+  }
+}
+
 class ObjectFactory<T, C> {
   ObjectFactory(this.create);
   final T Function(C context) create;
