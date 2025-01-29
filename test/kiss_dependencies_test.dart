@@ -49,6 +49,18 @@ void main() {
           expect(resolve<A>(identifier: 'alt'), isA<A>());
         },
       );
+
+      test(
+        'Fifth Test',
+        () {
+          expect(
+            () => register<A>(A()),
+            throwsA(
+              isA<AlreadyRegisteredException>(),
+            ),
+          );
+        },
+      );
     },
   );
 }

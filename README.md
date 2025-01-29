@@ -16,7 +16,7 @@ Add Kiss Dependencies to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  kiss_dependencies: ^1.1.0
+  kiss_dependencies: ^1.2.0
 ```
 
 ## Usage
@@ -108,15 +108,43 @@ cachedFactory.remove('unique_id');
 cachedFactory.clear();
 ```
 
-## Error Handling
+### Overriding Dependencies
 
-The package provides clear error messages when dependencies cannot be resolved:
+You can override existing dependencies for testing or configuration changes:
 
 ```dart
+// Override an existing registration
+override<MyService>(newService);
+
+// Override with an identifier
+override<MyService>(newService, identifier: 'custom');
+
+// Override with a lazy instance
+overrideLazy<MyService>(
+  () => MyService(),
+  identifier: 'lazy_custom',
+);
+```
+
+## Error Handling
+
+The package provides clear error messages for common scenarios:
+
+```dart
+// Handling unregistered dependencies
 try {
   final unregistered = resolve<UnregisteredService>();
 } on UnregisteredDependencyException catch (e) {
   print(e.message); // Prints: Error resolving dependency UnregisteredService with identifier null
+}
+
+// Handling duplicate registrations
+try {
+  register<MyService>(myService);
+  register<MyService>(anotherService); // Will throw AlreadyRegisteredException
+} on AlreadyRegisteredException catch (e) {
+  print(e.message); // Prints appropriate error message
+  // Use override() instead to replace existing registration
 }
 ```
 
