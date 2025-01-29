@@ -5,3 +5,7 @@
 ## 1.0.1
 
 - Added `InstanceFactory`
+
+## 1.1.0
+
+- Added `registerLazy`

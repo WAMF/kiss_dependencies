@@ -35,3 +35,17 @@ void register<T extends Object>(
     );
   }
 }
+
+void registerLazy<T extends Object>(
+  T Function() create, {
+  Object? identifier,
+}) {
+  if (identifier == null) {
+    _getIt.registerLazySingleton<T>(create);
+  } else {
+    _getIt.registerLazySingleton<T>(
+      create,
+      instanceName: identifier.toString(),
+    );
+  }
+}

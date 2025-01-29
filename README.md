@@ -16,14 +16,18 @@ Add Kiss Dependencies to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  kiss_dependencies: ^1.0.1
+  kiss_dependencies: ^1.1.0
 ```
 
 ## Usage
 
-### Basic Dependency Registration
+### Dependency Registration
 
-Register your dependencies as singletons:
+You can register dependencies either as immediate singletons or lazy singletons:
+
+#### Regular Singleton Registration
+
+Register dependencies that should be instantiated immediately:
 
 ```dart
 // Register a simple service
@@ -33,6 +37,25 @@ register<MyService>(myService);
 // Register with an identifier
 register<MyService>(myService, identifier: 'custom');
 ```
+
+#### Lazy Singleton Registration
+
+Register dependencies that should be instantiated only when first resolved:
+
+```dart
+// Register a lazy singleton
+registerLazy<MyService>(
+  () => MyService(),
+);
+
+// Register a lazy singleton with an identifier
+registerLazy<MyService>(
+  () => MyService(),
+  identifier: 'lazy_custom',
+);
+```
+
+The lazy singleton will only be created when it's first resolved, which can help with startup performance and memory usage.
 
 ### Resolving Dependencies
 
