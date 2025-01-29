@@ -16,7 +16,7 @@ Add Kiss Dependencies to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  kiss_dependencies: ^1.2.0
+  kiss_dependencies: ^1.3.0
 ```
 
 ## Usage
@@ -114,13 +114,13 @@ You can override existing dependencies for testing or configuration changes:
 
 ```dart
 // Override an existing registration
-override<MyService>(newService);
+overrideDependency<MyService>(newService);
 
 // Override with an identifier
-override<MyService>(newService, identifier: 'custom');
+overrideDependency<MyService>(newService, identifier: 'custom');
 
 // Override with a lazy instance
-overrideLazy<MyService>(
+overrideDependencyLazy<MyService>(
   () => MyService(),
   identifier: 'lazy_custom',
 );

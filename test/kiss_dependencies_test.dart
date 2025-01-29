@@ -3,6 +3,8 @@ import 'package:test/test.dart';
 
 class A {}
 
+class A2 extends A {}
+
 class B {}
 
 void main() {
@@ -61,6 +63,11 @@ void main() {
           );
         },
       );
+
+      test('Override dependency', () {
+        overrideDependency<A>(A2());
+        expect(resolve<A>(), isA<A2>());
+      });
     },
   );
 }

@@ -14,3 +14,7 @@
 
 - Added `override` and `overrideLazy`
 - Added `AlreadyRegisteredException`
+
+## 1.3.0
+
+- Renamed `override` to `overrideDependency` and `overrideLazy` to `overrideDependencyLazy`

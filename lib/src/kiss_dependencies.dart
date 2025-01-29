@@ -65,7 +65,7 @@ void registerLazy<T extends Object>(
   }
 }
 
-void override<T extends Object>(
+void overrideDependency<T extends Object>(
   T instance, {
   Object? identifier,
 }) {
@@ -73,7 +73,7 @@ void override<T extends Object>(
   register<T>(instance, identifier: identifier);
 }
 
-void overrideLazy<T extends Object>(
+void overrideDependencyLazy<T extends Object>(
   T Function() create, {
   Object? identifier,
 }) {
