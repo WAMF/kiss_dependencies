@@ -28,6 +28,30 @@ T resolve<T extends Object>({Object? identifier}) {
 }
 
 void register<T extends Object>(
+  T Function() create, {
+  Object? identifier,
+}) {
+  if (identifier == null) {
+    if (_getIt.isRegistered<T>()) {
+      throw AlreadyRegisteredException(
+        'Dependency $T with identifier $identifier is already registered',
+      );
+    }
+    _getIt.registerLazySingleton<T>(create);
+  } else {
+    if (_getIt.isRegistered<T>(instanceName: identifier.toString())) {
+      throw AlreadyRegisteredException(
+        'Dependency $T with identifier $identifier is already registered',
+      );
+    }
+    _getIt.registerLazySingleton<T>(
+      create,
+      instanceName: identifier.toString(),
+    );
+  }
+}
+
+void registerImmediate<T extends Object>(
   T instance, {
   Object? identifier,
 }) {
@@ -51,32 +75,43 @@ void register<T extends Object>(
   }
 }
 
+@Deprecated(
+  'Use register() instead. register() now uses lazy registration by default.',
+)
 void registerLazy<T extends Object>(
   T Function() create, {
   Object? identifier,
 }) {
-  if (identifier == null) {
-    _getIt.registerLazySingleton<T>(create);
-  } else {
-    _getIt.registerLazySingleton<T>(
-      create,
-      instanceName: identifier.toString(),
-    );
-  }
+  register<T>(create, identifier: identifier);
 }
 
 void overrideDependency<T extends Object>(
-  T instance, {
-  Object? identifier,
-}) {
-  _getIt.unregister<T>(instanceName: identifier?.toString());
-  register<T>(instance, identifier: identifier);
-}
-
-void overrideDependencyLazy<T extends Object>(
   T Function() create, {
   Object? identifier,
 }) {
   _getIt.unregister<T>(instanceName: identifier?.toString());
-  registerLazy<T>(create, identifier: identifier);
+  register<T>(create, identifier: identifier);
+}
+
+void overrideDependencyImmediate<T extends Object>(
+  T instance, {
+  Object? identifier,
+}) {
+  _getIt.unregister<T>(instanceName: identifier?.toString());
+  registerImmediate<T>(instance, identifier: identifier);
+}
+
+@Deprecated(
+  'Use overrideDependency() instead. overrideDependency() now uses lazy '
+  'registration by default.',
+)
+void overrideDependencyLazy<T extends Object>(
+  T Function() create, {
+  Object? identifier,
+}) {
+  overrideDependency<T>(create, identifier: identifier);
+}
+
+void unregister<T extends Object>({Object? identifier}) {
+  _getIt.unregister<T>(instanceName: identifier?.toString());
 }

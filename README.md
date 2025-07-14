@@ -23,39 +23,46 @@ dependencies:
 
 ### Dependency Registration
 
-You can register dependencies either as immediate singletons or lazy singletons:
+You can register dependencies either as lazy singletons (default) or immediate singletons:
 
-#### Regular Singleton Registration
-
-Register dependencies that should be instantiated immediately:
-
-```dart
-// Register a simple service
-final myService = MyService();
-register<MyService>(myService);
-
-// Register with an identifier
-register<MyService>(myService, identifier: 'custom');
-```
-
-#### Lazy Singleton Registration
+#### Lazy Singleton Registration (Default)
 
 Register dependencies that should be instantiated only when first resolved:
 
 ```dart
 // Register a lazy singleton
-registerLazy<MyService>(
+register<MyService>(
   () => MyService(),
 );
 
 // Register a lazy singleton with an identifier
-registerLazy<MyService>(
+register<MyService>(
   () => MyService(),
-  identifier: 'lazy_custom',
+  identifier: 'custom',
 );
 ```
 
 The lazy singleton will only be created when it's first resolved, which can help with startup performance and memory usage.
+
+#### Immediate Singleton Registration
+
+Register dependencies that should be instantiated immediately:
+
+```dart
+// Register an immediate singleton
+final myService = MyService();
+registerImmediate<MyService>(myService);
+
+// Register an immediate singleton with an identifier
+registerImmediate<MyService>(myService, identifier: 'immediate');
+```
+
+#### Deprecated Functions
+
+```dart
+// DEPRECATED: Use register() instead
+registerLazy<MyService>(() => MyService()); // Now deprecated
+```
 
 ### Resolving Dependencies
 
@@ -76,7 +83,7 @@ For cases where you need to create objects with specific context:
 ```dart
 // Define and register a factory
 register<ObjectFactory<MyObject, BuildContext>>(
-  ObjectFactory((context) => MyObject(context))
+  () => ObjectFactory((context) => MyObject(context))
 );
 
 // Resolve and use the factory
@@ -91,7 +98,7 @@ When you need to cache objects based on context:
 ```dart
 // Register a cached factory
 register<ObjectFactoryPermanentCached<MyWidget, String>>(
-  ObjectFactoryPermanentCached((id) => MyWidget(id))
+  () => ObjectFactoryPermanentCached((id) => MyWidget(id))
 );
 
 // Resolve the factory and build instances
@@ -113,17 +120,32 @@ cachedFactory.clear();
 You can override existing dependencies for testing or configuration changes:
 
 ```dart
-// Override an existing registration
-overrideDependency<MyService>(newService);
+// Override an existing registration (lazy by default)
+overrideDependency<MyService>(() => MyService());
 
 // Override with an identifier
-overrideDependency<MyService>(newService, identifier: 'custom');
+overrideDependency<MyService>(() => MyService(), identifier: 'custom');
 
-// Override with a lazy instance
-overrideDependencyLazy<MyService>(
-  () => MyService(),
-  identifier: 'lazy_custom',
+// Override with an immediate instance
+overrideDependencyImmediate<MyService>(
+  MyService(),
+  identifier: 'immediate',
 );
+
+// DEPRECATED: Use overrideDependency() instead
+overrideDependencyLazy<MyService>(() => MyService()); // Now deprecated
+```
+
+### Unregistering Dependencies
+
+You can remove dependencies when they're no longer needed:
+
+```dart
+// Unregister a dependency
+unregister<MyService>();
+
+// Unregister a dependency with an identifier
+unregister<MyService>(identifier: 'custom');
 ```
 
 ## Error Handling
