@@ -1,20 +1,34 @@
-## 1.0.0
+## 2.0.0
 
-- Initial version.
+**BREAKING CHANGES:**
+- `register()` now uses lazy registration by default (was immediate)
+- `registerLazy()` is now deprecated, use `register()` instead
+- `overrideDependency()` now uses lazy registration by default (was immediate)
+- `overrideDependencyLazy()` is now deprecated, use `overrideDependency()` instead
 
-## 1.0.1
+**New Features:**
+- Added `registerImmediate()` function for immediate registration
+- Added `overrideDependencyImmediate()` function for immediate override
+- Added `unregister()` function for removing dependencies
+- Added `analysis_options.yaml` with very_good_analysis linter rules
 
-- Added `InstanceFactory`
+## 1.3.0
 
-## 1.1.0
-
-- Added `registerLazy`
+- Renamed `override` to `overrideDependency` and `overrideLazy` to `overrideDependencyLazy`
 
 ## 1.2.0
 
 - Added `override` and `overrideLazy`
 - Added `AlreadyRegisteredException`
 
-## 1.3.0
+## 1.1.0
 
-- Renamed `override` to `overrideDependency` and `overrideLazy` to `overrideDependencyLazy`
+- Added `registerLazy`
+
+## 1.0.1
+
+- Added `InstanceFactory`
+
+## 1.0.0
+
+- Initial version.
