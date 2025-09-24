@@ -5,11 +5,17 @@ final _getIt = GetIt.instance;
 class UnregisteredDependencyException implements Exception {
   UnregisteredDependencyException(this.message);
   final String message;
+
+  @override
+  String toString() => 'UnregisteredDependencyException: $message';
 }
 
 class AlreadyRegisteredException implements Exception {
   AlreadyRegisteredException(this.message);
   final String message;
+
+  @override
+  String toString() => 'AlreadyRegisteredException: $message';
 }
 
 T resolve<T extends Object>({Object? identifier}) {

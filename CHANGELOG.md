@@ -1,3 +1,7 @@
+## 2.0.1
+
+- Improved exception handling: Added `toString()` methods to `AlreadyRegisteredException` and `UnregisteredDependencyException` for better error messages
+
 ## 2.0.0
 
 **BREAKING CHANGES:**
