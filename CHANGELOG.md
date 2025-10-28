@@ -1,3 +1,10 @@
+## 3.0.0
+
+- Removed get_it dependency - now uses internal minimal service locator implementation
+- Zero external runtime dependencies
+- Smaller package footprint with full control over implementation
+- Same public API - no changes needed in your code
+
 ## 2.0.1
 
 - Improved exception handling: Added `toString()` methods to `AlreadyRegisteredException` and `UnregisteredDependencyException` for better error messages

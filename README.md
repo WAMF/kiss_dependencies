@@ -1,6 +1,6 @@
 # Kiss Dependencies
 
-A lightweight dependency injection package for Dart that follows the KISS (Keep It Simple, Stupid) principle. Built on top of [get_it](https://pub.dev/packages/get_it), Kiss Dependencies provides a streamlined API for managing your application's dependencies.
+A lightweight dependency injection package for Dart that follows the KISS (Keep It Simple, Stupid) principle. Kiss Dependencies provides a streamlined API for managing your application's dependencies with zero external dependencies.
 
 ## Features
 
@@ -9,6 +9,8 @@ A lightweight dependency injection package for Dart that follows the KISS (Keep 
 - Factory pattern support with caching capabilities
 - Minimal boilerplate code
 - Type-safe dependency resolution
+- Zero external runtime dependencies
+- Lightweight implementation (~95 lines of code)
 
 ## Installation
 
@@ -16,7 +18,7 @@ Add Kiss Dependencies to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  kiss_dependencies: ^1.3.0
+  kiss_dependencies: ^3.0.0
 ```
 
 ## Usage

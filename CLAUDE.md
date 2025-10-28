@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Dart package called `kiss_dependencies` that provides lightweight dependency injection functionality built on top of get_it. It follows the KISS (Keep It Simple, Stupid) principle.
+This is a Dart package called `kiss_dependencies` that provides lightweight dependency injection functionality with zero external dependencies. It follows the KISS (Keep It Simple, Stupid) principle with a minimal internal service locator implementation.
 
 ## Common Development Commands
 
@@ -32,26 +32,37 @@ dart run example/kiss_dependencies_example.dart
 
 ## Architecture
 
-The package has a simple two-layer architecture:
+The package has a simple three-layer architecture:
 
-1. **Core Module** (`lib/src/kiss_dependencies.dart`): Contains the main dependency injection functions that wrap get_it functionality:
-   - `register<T>()` - Register immediate singletons
-   - `registerLazy<T>()` - Register lazy singletons
+1. **Service Locator** (`lib/src/service_locator.dart`): Minimal internal implementation (~95 lines):
+   - `ServiceLocator.instance` - Singleton service locator
+   - `registerSingleton<T>()` - Register immediate singletons
+   - `registerLazySingleton<T>()` - Register lazy singletons
+   - `get<T>()` - Retrieve dependencies
+   - `isRegistered<T>()` - Check registration status
+   - `unregister<T>()` - Remove dependencies
+   - Uses sealed classes for registration types (immediate vs lazy)
+
+2. **Core Module** (`lib/src/kiss_dependencies.dart`): Public API wrapping the service locator:
+   - `register<T>()` - Register lazy singletons (default)
+   - `registerImmediate<T>()` - Register immediate singletons
    - `resolve<T>()` - Resolve dependencies
    - `overrideDependency<T>()` - Override existing registrations
+   - `unregister<T>()` - Remove dependencies
    - Custom exceptions: `UnregisteredDependencyException`, `AlreadyRegisteredException`
 
-2. **Factory Module** (`lib/src/object_factory.dart`): Provides factory patterns for object creation:
+3. **Factory Module** (`lib/src/object_factory.dart`): Provides factory patterns for object creation:
    - `InstanceFactory<T>` - Simple factory for creating new instances
    - `ObjectFactory<T, C>` - Context-based factory
    - `ObjectFactoryPermanentCached<T, C>` - Cached factory with context-based caching
 
 ## Key Implementation Details
 
-- All functionality is built on top of `get_it` package
+- Zero external dependencies - fully self-contained
 - Dependencies are registered as singletons (immediate or lazy)
 - Named instances are supported via optional `identifier` parameter
-- The package maintains a single global `GetIt` instance
+- The package maintains a single global `ServiceLocator` instance
+- Lazy registrations only create instances on first access
 - Cached factories use Map-based caching with manual cache management methods
 
 ## Testing Approach

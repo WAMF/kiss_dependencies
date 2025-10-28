@@ -1,14 +1,10 @@
 name: kiss_dependencies
 description: A lightweight dependency injection package for Dart that follows the KISS (Keep It Simple, Stupid) principle.
-version: 2.0.1
+version: 3.0.0
 repository: https://github.com/WAMF/kiss_dependencies
 
 environment:
   sdk: ^3.6.0
-
-dependencies:
-  get_it: ^8.0.3
-
 
 dev_dependencies:
   lints: ^5.0.0

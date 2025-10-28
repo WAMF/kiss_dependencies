@@ -1,6 +1,6 @@
-import 'package:get_it/get_it.dart';
+import 'package:kiss_dependencies/src/service_locator.dart';
 
-final _getIt = GetIt.instance;
+final _serviceLocator = ServiceLocator.instance;
 
 class UnregisteredDependencyException implements Exception {
   UnregisteredDependencyException(this.message);
@@ -21,9 +21,9 @@ class AlreadyRegisteredException implements Exception {
 T resolve<T extends Object>({Object? identifier}) {
   try {
     if (identifier == null) {
-      return _getIt.get<T>();
+      return _serviceLocator.get<T>();
     }
-    return _getIt.get<T>(
+    return _serviceLocator.get<T>(
       instanceName: identifier.toString(),
     );
   } on Object catch (_) {
@@ -38,19 +38,19 @@ void register<T extends Object>(
   Object? identifier,
 }) {
   if (identifier == null) {
-    if (_getIt.isRegistered<T>()) {
+    if (_serviceLocator.isRegistered<T>()) {
       throw AlreadyRegisteredException(
         'Dependency $T with identifier $identifier is already registered',
       );
     }
-    _getIt.registerLazySingleton<T>(create);
+    _serviceLocator.registerLazySingleton<T>(create);
   } else {
-    if (_getIt.isRegistered<T>(instanceName: identifier.toString())) {
+    if (_serviceLocator.isRegistered<T>(instanceName: identifier.toString())) {
       throw AlreadyRegisteredException(
         'Dependency $T with identifier $identifier is already registered',
       );
     }
-    _getIt.registerLazySingleton<T>(
+    _serviceLocator.registerLazySingleton<T>(
       create,
       instanceName: identifier.toString(),
     );
@@ -62,19 +62,19 @@ void registerImmediate<T extends Object>(
   Object? identifier,
 }) {
   if (identifier == null) {
-    if (_getIt.isRegistered<T>()) {
+    if (_serviceLocator.isRegistered<T>()) {
       throw AlreadyRegisteredException(
         'Dependency $T with identifier $identifier is already registered',
       );
     }
-    _getIt.registerSingleton<T>(instance);
+    _serviceLocator.registerSingleton<T>(instance);
   } else {
-    if (_getIt.isRegistered<T>(instanceName: identifier.toString())) {
+    if (_serviceLocator.isRegistered<T>(instanceName: identifier.toString())) {
       throw AlreadyRegisteredException(
         'Dependency $T with identifier $identifier is already registered',
       );
     }
-    _getIt.registerSingleton<T>(
+    _serviceLocator.registerSingleton<T>(
       instance,
       instanceName: identifier.toString(),
     );
@@ -95,7 +95,7 @@ void overrideDependency<T extends Object>(
   T Function() create, {
   Object? identifier,
 }) {
-  _getIt.unregister<T>(instanceName: identifier?.toString());
+  _serviceLocator.unregister<T>(instanceName: identifier?.toString());
   register<T>(create, identifier: identifier);
 }
 
@@ -103,7 +103,7 @@ void overrideDependencyImmediate<T extends Object>(
   T instance, {
   Object? identifier,
 }) {
-  _getIt.unregister<T>(instanceName: identifier?.toString());
+  _serviceLocator.unregister<T>(instanceName: identifier?.toString());
   registerImmediate<T>(instance, identifier: identifier);
 }
 
@@ -119,5 +119,5 @@ void overrideDependencyLazy<T extends Object>(
 }
 
 void unregister<T extends Object>({Object? identifier}) {
-  _getIt.unregister<T>(instanceName: identifier?.toString());
+  _serviceLocator.unregister<T>(instanceName: identifier?.toString());
 }
