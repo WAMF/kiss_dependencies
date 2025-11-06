@@ -1,3 +1,9 @@
+## 3.0.1
+
+- Added Claude Code agent for automated code review and DI best practices
+- Agent helps identify anti-patterns, missed DI opportunities, and ensures correct usage
+- Available automatically when using Claude Code in projects with this dependency
+
 ## 3.0.0
 
 - Removed get_it dependency - now uses internal minimal service locator implementation

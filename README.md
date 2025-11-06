@@ -179,6 +179,34 @@ try {
 3. Clear cached factories when they're no longer needed to prevent memory leaks
 4. Keep your dependency tree simple and avoid circular dependencies
 
+## Claude Code Agent
+
+This package includes a specialized Claude Code agent that reviews your codebase for proper kiss_dependencies usage. The agent helps ensure:
+
+- Correct dependency injection patterns
+- Proper use of lazy vs immediate registration
+- Identification of missed DI opportunities
+- Best practices for testing with mocks and overrides
+- Detection of anti-patterns and code smells
+
+### Using the Agent
+
+If you're using [Claude Code](https://claude.com/code), the agent is automatically available when this package is in your dependencies. Simply ask:
+
+```
+@kiss-dependencies-reviewer please review this codebase
+```
+
+Or for specific reviews:
+```
+@kiss-dependencies-reviewer review lib/features/auth/ for DI issues
+@kiss-dependencies-reviewer check if we're properly using lazy registration
+```
+
+The agent will scan your code and provide detailed recommendations with file references and code examples.
+
+See [.claude/README.md](.claude/README.md) for more details.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
